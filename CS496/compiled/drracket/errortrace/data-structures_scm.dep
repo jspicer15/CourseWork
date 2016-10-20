@@ -1,0 +1,1 @@
+("6.2" ("7010e99ba0c52f33d4eeb60b056b36ef0122b5ba" . "ec3f39301c51ab8a275996da3ae3d557f871fb06") (collects #"eopl" #"eopl.rkt") (collects #"racket" #"contract" #"base.rkt"))

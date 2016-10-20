@@ -1,0 +1,4 @@
+dave: Khaled, Michael Jackson,alanis Morrisset
+john$:Black Sabbath,Iron Maiden,Metallica,Rush
+vin:Iron Maiden,Pink Floyd
+sue:Kate Bush,Michael Jackson,Nirvana

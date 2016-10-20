@@ -1,0 +1,7 @@
+mov 	r5, r2
+add 	r5, r3
+ldi 	r16, 2
+
+sub 	r16, r5
+mul 	r2, r16
+mov 	r4, r0

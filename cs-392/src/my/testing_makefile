@@ -1,0 +1,14 @@
+NAME = testmy
+
+SRC = textmyfull.c my_alpha.c my_char.c my_digits.c my_int.c my_num_base.c my_revstr.c my_str.c my_strindex.c my_strrindex.c my_strlen.c pow.c
+OBJ = $(SRC:.c=.o)
+
+CFLAGS = -I../include
+LDFLAGS = 
+
+all: $(OBJ)
+	cc -L../lib $(OBJ) -o $(NAME) -Wall -Werror --pedantic
+
+clean:
+	rm -f $(OBJ)
+	rm -f $(NAME)

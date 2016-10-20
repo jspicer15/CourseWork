@@ -1,0 +1,25 @@
+#lang racket
+
+;<program>    -> <Expression>
+;             -> let <Identifier> = <Expression>
+;                 in <Expression>
+;
+;             -> let x = <Expression>
+;                 in <Expression>
+;
+;             -> let x = 2 in -(<Expression>, <Expression>)
+;
+;             -> let x = 2 in -(x, <Number>)
+;
+;             -> let x = 2 in -(x, 1)
+
+(a-program
+ (let-exp
+  #'x
+  const exp 2
+  (diff-exp
+   (var-exp #'x)
+   (const-exp 1)
+   )
+  )
+ )

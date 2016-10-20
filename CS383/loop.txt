@@ -1,0 +1,13 @@
+init:
+.def i=r16
+.def n=r17
+main:
+	ldi i,15
+	ldi n, 0x02
+loop:
+	cp m,i
+	brlo end
+	out ddrb, i
+	sub i,1
+	rjmp loop
+end: rjmp init

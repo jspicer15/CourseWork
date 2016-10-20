@@ -1,0 +1,235 @@
+Problem 1:
+
+.include "m328Pdef.inc"
+
+init:
+.def
+counter=r16
+.def
+bound=r17
+.def
+sum=r18
+main:
+ldi
+counter,1
+ldi
+bound,21
+clr
+sum
+loop:
+cpc
+counter,bound
+brge
+end
+add
+sum,counter
+inc
+counter
+rjmp
+loop
+end:
+out
+PORTB, r18
+    ret
+
+Problem 2:
+
+.include "m328Pdef.inc"
+
+init:
+.def
+counter=r16
+.def
+bound=r17
+main:
+ldi
+bound, 9
+ldi
+zh, 0x01
+ldi
+zl, 0x00
+loop:
+cpc
+zl, bound
+brge
+end
+ld
+r22, z+
+out
+PORTB, r22
+rjmp
+loop
+end:
+    ret
+
+Problem 3:
+
+.include "m328Pdef.inc"
+
+init:
+.def
+counter=r16
+.def
+bound=r17
+main:
+ldi
+bound, 1
+ldi
+zh, 0x01
+ldi
+zl, 0x00
+ld
+r22, z+
+ld
+r23, z
+cpc
+r22, r23
+brlo
+first
+out
+PORTB, r22
+rjmp
+end
+first:
+out
+PORTB, r23
+end:
+ret
+
+Problem 4:
+
+.include "m328Pdef.inc"
+
+init:
+.def
+counter=r16
+.def
+bound=r17
+.def
+suml=r18
+.def
+sumh=r19
+main:
+ldi
+bound, 5
+ldi
+zh, 0x01
+ldi
+zl, 0x00
+ldi
+suml, 0
+ldi
+sumh, 0
+ldi
+r23, 0
+loop:
+cpc
+zl, bound
+brge
+end
+ld
+r22, z+
+add
+suml, r22
+adc
+sumh, r23
+rjmp
+loop
+end:
+out
+PORTB, suml
+out
+PORTC, sumh
+    ret
+
+Problem 5:
+
+.include "m328Pdef.inc"
+
+init:
+.def
+counter=r16
+.def
+bound=r17
+.def
+largest=r18
+main:
+ldi
+bound, 19
+ldi
+zh, 0x01
+ldi
+zl, 0x00
+ldi
+largest, 0
+loop:
+cpc
+zl, bound
+brge
+end
+ld
+r22, z+
+cpc
+r22,largest
+brge
+largefound
+rjmp
+loop
+largefound:
+mov
+largest, r22
+rjmp
+loop
+end:
+out PORTB, largest
+    ret
+
+Problem 6:
+
+.include "m328Pdef.inc"
+
+init:
+.def
+counter=r16
+.def
+bound=r17
+.def
+suml=r18
+.def
+sumh=r19
+main:
+ldi
+counter, 1
+ldi
+zh, 0x01
+ldi
+zl, 0x00
+ldi
+r20, 0
+ld
+bound, z
+inc
+bound
+clr
+suml
+clr
+sumh
+loop:
+cpc
+counter, bound
+brge
+end
+add
+suml, counter
+adc
+sumh, r20
+inc
+counter
+rjmp
+loop
+end:
+out
+PORTB, suml
+out
+PORTC, sumh
+    ret

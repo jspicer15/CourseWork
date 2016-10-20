@@ -1,0 +1,12 @@
+Algorithm: Sequence of unambiguous instructions for solving a problem, i.e. for obtaining a required output for any legitimate input in a finite amount of time.
+
+Important: 
+1. The nonambiguity requirement for each step of an algorithm cannot be compromised.
+
+2. The range of inputs for which an algorithm works has to be specified carefully.
+
+3. The same algorithm can e represented in several different ways.
+
+4. There may exist several algorithms for solving the same problem.
+
+

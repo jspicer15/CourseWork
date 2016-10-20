@@ -1,0 +1,15 @@
+import java.io.IOException;
+
+public class SortPass
+{
+	public static MyPriorityQueue passQueue;
+	
+	public static MyPriorityQueue buildLines() throws IOException
+	{
+		Passenger[] passArr = ReadFile.buildPass();
+		passQueue = new MyPriorityQueue(passArr, passArr.length)
+		return passQueue
+	}
+	
+
+}

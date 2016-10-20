@@ -1,0 +1,126 @@
+// @author John Spicer
+public class Rectangle extends Shape
+{
+	private int base;
+	private int height;
+	
+	/*
+	@param b length of the base
+	@param h length of the height
+	*/
+	public Rectangle(int b, int h)
+	{
+		if(b <= 0 )
+			b = 1;
+		base = b;
+		if(h <= 0 )
+			h = 1; 
+		height = h;
+	}
+
+	public Rectangle()
+	{
+		base = 1;
+		height = 1;
+	}
+	
+	// @return height of the Rectangle
+	public int getHeight()
+	{
+		return height;
+	}
+
+	// @return base of the Rectangle
+	public int getBase()
+	{
+		return base;
+	}
+
+	/*
+	@param h length to set to the height of the Rectangle
+	@return true if h is greater than 0
+	*/
+	public boolean setHeight(int h)
+	{
+		if(h <= 0)
+			return false;
+		height = h;
+		return true;
+	}
+
+	/*
+	@param b length to set to the base of the Rectangle
+	@return true if b is greater than 0
+	*/
+	public boolean setBase(int b)
+	{
+		if(b <= 0)
+			return false;
+		base = b;
+		return true;
+	}
+	
+	// @return area of the Rectangle
+	public double area()
+	{
+		return base * height ;
+	}
+
+	// @return perimeter of the Rectangle
+	public double perimeter()
+	{
+		return 2.0 * base + 2.0 * height ;
+	}
+
+	public void shortPrint()
+	{
+		System.out.println("Base: " + getBase() + ", Height: " + getHeight() + ", Area: " + area() + ", Perimeter: " + perimeter() );
+	}
+
+	public void longPrint()
+	{
+		System.out.println("The Base is " + getBase() + "\nThe Height is " + getHeight() + "\nThe Area is " + area() + "\nThe Perimeter is " + perimeter() ) ;
+	}
+
+	// @return String of the Rectangle's data
+	public String toString()
+	{
+		return "Rectangle with Base: " + getBase() + ", Height: " + getHeight() + ", Area: " + area() + ", Perimeter: " + perimeter() ;
+	}
+
+	public static void main(String[] args)
+	{
+		Rectangle rect = new Rectangle(7,5);
+		System.out.println("\n");
+		System.out.println("Creating Rectangle(7,5)");
+		System.out.println("\n");
+		System.out.println("Expected 7 for base, 5 for height, 35.0 for area, 24.0 for perimeter");
+		rect.shortPrint();
+		System.out.println("\n");
+		System.out.println("Setting base to 9, expected true");
+		System.out.println(rect.setBase(9));
+		System.out.println("\n");
+		System.out.println("Setting height to 2, expected true");
+		System.out.println(rect.setHeight(2));
+		System.out.println("\n");
+		System.out.println("Expected 9 for base, 2 for height, 18.0 for area, 22.0 for perimeter");
+		rect.shortPrint();
+		System.out.println("\n");
+
+		Rectangle small = new Rectangle();
+
+		System.out.println("Creating Rectangle()");
+		System.out.println("\n");
+		System.out.println("Expected 1 for base, 1 for height, 1.0 for area, 4.0 for perimeter");
+		small.longPrint();
+		System.out.println("\n");
+		System.out.println("Setting base to 0, expected false");
+		System.out.println(small.setBase(0));
+		System.out.println("\n");
+		System.out.println("Setting height to -5, expected false");
+		System.out.println(small.setHeight(0));
+		System.out.println("\n");
+		System.out.println(small.toString());
+	}
+
+}

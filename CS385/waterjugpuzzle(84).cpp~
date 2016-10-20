@@ -1,0 +1,400 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <queue>
+#include <vector>
+
+int cap_a, cap_b, cap_c;
+int goal_state[2];
+bool success = 0;
+
+class State
+{
+	private:
+		std::vector<std::string> edges;
+		int jug_a;
+		int jug_b;
+		int jug_c;
+
+	public:
+		State(int a, int b, int c, std::vector<std::string> adjacent);
+		std::vector<std::string> getEdges();
+		void printVector();
+		int get_a();
+		int get_b();
+		int get_c();
+};
+
+State::State(int a, int b, int c, std::vector<std::string> adjacent)
+{
+	jug_a = a;
+	jug_b = b;
+	jug_c = c;
+	edges = adjacent;
+}
+
+std::vector<std::string> State::getEdges()
+{
+	return edges;
+}
+
+int State::get_a()
+{
+	return jug_a;
+}
+
+int State::get_b()
+{
+	return jug_b;
+}
+
+int State::get_c()
+{
+	return jug_c;
+}
+
+void State::printVector()
+{
+	for(unsigned int i = 0; i < edges.size(); ++i)
+	{
+		std::cout << edges[i] << std::endl;
+	}
+}
+
+bool checkGoal(int a, int b)
+{
+	if((a == goal_state[0]) && (b == goal_state[1]))
+		return true;
+	return false;
+}
+
+std::vector<std::string> makeEdges(int a, int b, int c)
+{
+	std::vector<std::string> edges;
+	std::stringstream iss;
+	iss << "Initial state. (" << a << ", " << b << ", " << c << ")";
+	edges.push_back(iss.str());
+	return edges;
+}
+
+std::string buildString(int a, int b, int c)
+{
+	std::string s;
+	std::stringstream iss;
+	iss << "(" << a << ", " << b << ", " << c << ")";
+	s = iss.str();
+	return s;
+}
+
+std::queue<State> pours;
+
+
+void bfs(int jug_a, int jug_b, int jug_c)
+{
+	bool **visited = new bool*[cap_a + 1];
+	for (int i = 0; i < cap_a + 1; ++i)
+	{
+		visited[i] = new bool[cap_b + 1];
+		// Fill the array with zeros.
+		std::fill(visited[i], visited[i] + cap_b + 1, false);
+	}
+	State states(jug_a, jug_b, jug_c, makeEdges(jug_a, jug_b, jug_c));
+	pours.push(states);
+	while(!pours.empty())
+	{
+		jug_a = pours.front().get_a();
+		jug_b = pours.front().get_b();
+		jug_c = pours.front().get_c();
+		visited[jug_a][jug_b] = true;
+		if(checkGoal(jug_a, jug_b))
+		{
+        		pours.front().printVector();
+			success = 1;
+			break;
+		}
+		State top = pours.front();
+		pours.pop();
+
+		// Pour from c to a
+		if(jug_a < cap_a)
+		{
+			int a = jug_a + jug_c;
+			int b = jug_b;
+			if(a > cap_a)
+				a = cap_a;
+			int c = jug_c - (a - jug_a);
+			if(b > cap_b)
+				b = cap_b;
+			std::stringstream iss;
+			iss << (a - jug_a);
+			std::string text = "Pour " + iss.str() + " gallons from C to A. ";
+			//if visited
+			if(!visited[a][b])
+			{
+				std::vector<std::string> path = top.getEdges();
+				path.push_back(text + buildString(a, b, c));
+				State c_a(a, b, c, path);
+				pours.push(c_a);
+			}
+		}
+
+		//Pour from b to a
+		if(jug_a < cap_a)
+		{
+			if(jug_b != 0)
+			{
+				int c = jug_c;
+				int a = jug_a + jug_b;
+				if(a > cap_a)
+					a = cap_a;
+				int b = jug_b - (a - jug_a);
+				if(b < 0)
+					b = 0;
+				if(b > cap_b)
+					b = cap_b;
+				//if visisted
+				std::stringstream iss;
+				iss << (jug_b - b);
+				std::string text = "Pour " + iss.str() + " gallons from B to A. ";
+				if(!visited[a][b])
+				{
+					std::vector<std::string> path = top.getEdges();
+		                        path.push_back(text + buildString(a, b, c));
+		                        State b_a(a, b, c, path);
+		                        pours.push(b_a);
+				}
+			}
+		}
+
+		//Pour from c to b
+		if(jug_b < cap_b)
+		{
+			int b = jug_c + jug_b;
+			int a = jug_a;
+			if(b > cap_b)
+				b = cap_b;
+			int c = jug_c - (b - jug_b);
+			if(a > cap_a)
+				a = cap_a;
+			std::stringstream iss;
+			iss << (b - jug_b);
+			std::string text = "Pour " + iss.str() + " gallons from C to B. ";
+			if(!visited[a][b])
+			{
+				std::vector<std::string> path = top.getEdges();
+                                path.push_back(text + buildString(a, b, c));
+                                State c_b(a, b, c, path);
+                                pours.push(c_b);
+			}
+		}
+
+		//Pour from a to b
+		if(jug_b < cap_b)
+		{
+			if(jug_a != 0)
+			{
+				int c = jug_c;
+				int a;
+				int b = jug_a + jug_b;
+				if(b > cap_b)
+				{
+					b = cap_b;
+					a = cap_c - b - jug_b;
+				}
+				else 
+					a = 0;
+				if(a < 0)
+					a = 0;
+				if(a > cap_a)
+					a = cap_a;
+				std::stringstream iss;
+				if((b - jug_b) > 1)
+				{
+					iss << (b - jug_b);
+					std::string text = "Pour " + iss.str() + " gallons from A to C. ";
+				}
+				else
+				{
+					iss << (b - jug_b);
+					std::string text = "Pour " + iss.str() + " gallon from A to C. ";
+				}
+
+				if(!visited[a][b])
+				{
+					std::vector<std::string> path = top.getEdges();
+		                        path.push_back(text + buildString(a, b, c));
+		                        State a_b(a, b, c, path);
+		                        pours.push(a_b);
+				}
+			}
+		}
+
+		//Pour from b to c
+		if(jug_a + jug_b < cap_c)
+		{
+			if(jug_b != 0)
+			{
+				int c = jug_c + jug_b;
+				if(c > cap_c)
+					c = cap_c;
+				int b = jug_c - c;
+				int a = jug_a;
+				if(b > cap_b)
+					b = cap_b;
+				if(b < 0)
+					b = 0;
+				if(a > cap_a)
+					a = cap_a;
+				std::stringstream iss;
+				if((jug_b - b) > 1)
+				{
+					iss << (jug_a - a);
+					std::string text = "Pour " + iss.str() + " gallons from B to C. ";
+				}
+				else
+				{
+					iss << (jug_b - b);
+					std::string text = "Pour " + iss.str() + " gallon from B to C. ";
+				}
+
+				if(!visited[a][b])
+				{
+					std::vector<std::string> path = top.getEdges();
+		                        path.push_back(text + buildString(a, b, c));
+		                        State b_c(a, b, c, path);
+		                        pours.push(b_c);
+				}
+			}
+		}
+
+		//Pour from a to c
+		if(jug_a + jug_b < cap_c)
+		{
+			if(jug_a != 0)
+			{
+				int c = jug_a + jug_c;
+				if(c > cap_c)
+					c = cap_c;
+				int a = jug_a - (c - jug_c);
+				if(a > cap_a)
+					a = cap_a;
+				if(a < 0)
+					a = 0;
+				int b = jug_b;
+				std::stringstream iss;
+				if((jug_a - a) > 1)
+				{
+					iss << (jug_a - a);
+					std::string text = "Pour " + iss.str() + " gallons from A to C. ";
+				}
+				else
+				{
+					iss << (jug_a - a);
+					std::string text = "Pour " + iss.str() + " gallon from A to C. ";
+				}
+
+		                if(!visited[a][jug_b])
+				{
+					std::vector<std::string> path = top.getEdges();
+		                        path.push_back(text + buildString(a, b, c));
+		                        State a_c(a, b, c, path);
+		                        pours.push(a_c);
+				}
+			}
+		}
+	}
+	if(!success)
+		std::cout << "No solution." << std::endl;
+}
+
+int main(int argc, char * const argv[])
+{
+	if (argc != 7) {
+		std::cerr << "Usage: " << argv[0] << " <cap A> <cap B> <cap C> <goal A> <goal B> <goal C>" << std::endl;
+		return 1;
+	}
+
+	for (int i = 1; i <= 6; ++i) {
+		int temp;
+		std::istringstream iss(argv[i]);
+		if (!(iss >> temp) || (temp < 0) || (temp == 0 && i == 3)) {
+			if (i == 1) {
+				std::cerr << "Error: Invalid capacity '" << argv[i] << "' for jug A." << std::endl;
+				return 1;
+			}
+			if (i == 2) {
+				std::cerr << "Error: Invalid capacity '" << argv[i] << "' for jug B." << std::endl;
+				return 1;
+			}
+			if (i == 3) {
+				std::cerr << "Error: Invalid capacity '" << argv[i] << "' for jug C." << std::endl;
+				return 1;
+			}
+			if (i == 4) {
+				std::cerr << "Error: Invalid goal '" << argv[i] << "' for jug A." << std::endl;
+				return 1;
+			}
+			if (i == 5) {
+				std::cerr << "Error: Invalid goal '" << argv[i] << "' for jug B." << std::endl;
+				return 1;
+			}
+			if (i == 6) {
+				std::cerr << "Error: Invalid goal '" << argv[i] << "' for jug C." << std::endl;
+				return 1;
+			}
+		}
+	}
+	for (int i = 1, j = 4; i <= 3 && j <= 6; i++, j++) {
+		int temp_i, temp_j;
+		std::istringstream iss_i(argv[i]);
+		iss_i >> temp_i;
+		std::istringstream iss_j(argv[j]);
+		iss_j >> temp_j;
+		if ((temp_j > temp_i) && i == 1) {
+			std::cerr << "Error: Goal cannot exceed capacity of jug A." << std::endl;
+			return 1;
+		}
+		if ((temp_j > temp_i) && i == 2) {
+			std::cerr << "Error: Goal cannot exceed capacity of jug B." << std::endl;
+			return 1;
+		}
+		if ((temp_j > temp_i) && i == 3) {
+			std::cerr << "Error: Goal cannot exceed capacity of jug C." << std::endl;
+			return 1;
+		}
+	}
+
+	int sum, max;
+	sum = 0;
+	std::istringstream iss(argv[3]);
+	iss >> max;
+	for (int i = 4; i <= 6; ++i) {
+		int temp;
+		std::istringstream it(argv[i]);
+		it >> temp;
+		sum += temp;
+	}
+	if (sum != max) {
+		std::cerr << "Error: Total gallons in goal state must be equal to the capacity of jug C." << std::endl;
+		return 1;
+	}
+
+	for(int i = 4; i <= 6; ++i){
+		std::istringstream iss(argv[i]);
+		int temp;
+		iss >> temp;
+		goal_state[i - 4] = temp;
+	}
+	std::istringstream iss1(argv[1]);
+	int temp;
+	iss1 >> temp;
+	cap_a = temp;
+	std::istringstream iss2(argv[2]);
+	iss2 >> temp;
+	cap_b = temp;
+	std::istringstream iss3(argv[3]);
+	iss3 >> temp;
+	cap_c = temp;
+
+	bfs(0, 0, cap_c);
+}

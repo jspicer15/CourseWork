@@ -1,0 +1,44 @@
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class ReadFile1 
+{
+	public static void main(String args[]) throws IOException
+	{
+		int agents = 0;
+		int pass = 0;
+		String[] splitted = null;
+		BufferedReader br = new BufferedReader(new FileReader("input.dat"));
+		try 
+		{
+			String line = null;
+			StringBuilder sb = new StringBuilder();
+			line = br.readLine();
+
+			while (line != null) 
+			{
+				sb.append(line);
+				sb.append("\n");
+				line = br.readLine();
+			}
+			//System.out.println(sb.toString());
+			splitted = sb.toString().split("\n");
+			StringTokenizer st = new StringTokenizer(sb.toString());
+			while (st.hasMoreElements()) 
+			{
+				String next = st.nextElement().toString();
+				int nextInt = Integer.parseInt(next);
+				agents = Integer.parseInt(next);
+				pass = Integer.parseInt(next);
+				TSA[] agentArr = TSA[agents];
+				for(int i; i < agents; i++)
+				{
+					agentArr[i] = new TSA(next,next,nextInt,nextInt,nextInt,nextInt,nextInt,nextInt,nextInt,nextInt,nextInt);
+				}				
+			}
+		} finally 
+		{
+			br.close();
+		}
+	}
+}

@@ -1,0 +1,40 @@
+#include "../../include/my.h"
+
+void my_num_base(int i, char* str)
+{
+	int len = my_strlen(str);
+
+	if (str == NULL)
+	{
+		my_str("NULL\n");
+		return;
+	}
+
+	if (len == 0)
+	{
+		my_str("error: string cannot be empty\n");
+		return;
+	}
+
+	if (my_strindex(str, ' ') != NULL)
+	{
+		my_str("error: space found in string\n");
+		return;
+	}
+
+	if (len == 1)
+	{
+		while (len < i + 1)
+		{
+			my_str(str);
+			len++;
+		}
+		return;
+	}
+
+	if (i != 0)
+	{
+		my_num_base(i / len, str);
+		my_char(str[i % len]);
+	}
+}

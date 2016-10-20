@@ -1,0 +1,19 @@
+NAME = testmy
+
+SRC = testmy.c my_alpha.c my_char.c my_digits.c my_int.c my_num_base.c my_revstr.c my_str.c my_strlen.c my_strindex.c my_strrindex.c
+OBJ = $(SRC:.c=.o)
+
+CFLAGS = -I../include
+LDFLAGS = 
+
+all: $(OBJ)
+	cc -pedantic -Wall -Werror -L../../lib $(OBJ) -o $(NAME) 
+
+clean:
+	rm -f $(OBJ)
+	rm -f $(NAME)
+
+fclean: clean
+	rm -f ../../lib/$(NAME)
+
+re: fclean all

@@ -1,0 +1,28 @@
+#include "../../include/my.h"
+void my_int(int i)
+{
+	int x = i;
+	int pow = 1;
+	char c;
+
+	if (i < 0)
+	{
+		my_char('-');
+		i *= -1;
+	}
+
+	while (i >= 1)
+	{
+		x = i;
+		pow = 1;
+		while (x >= 10)
+		{
+			x /= 10;
+			pow *= 10;
+		}
+		i -= pow;
+		c = x + '0';
+		my_char(c);
+	}
+	my_char(i + '0');
+}

@@ -1,0 +1,35 @@
+/*
+	@author John Spicer
+*/
+public class Person 
+{
+
+	String firstName;
+	String lastName;
+	int age;
+	int gender;
+
+	/*
+		@return firstName of the person
+	*/
+	public String getFirst() 
+	{
+		return firstName;
+	}
+
+	public String getLast() 
+	{
+		return lastName;
+	}
+
+	public int getAge() 
+	{
+		return age;
+	}
+
+	public int getGender() 
+	{
+		return gender;
+	}
+
+}

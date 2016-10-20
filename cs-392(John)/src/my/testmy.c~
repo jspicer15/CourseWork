@@ -1,0 +1,82 @@
+#include "../../include/my.h"
+int main (void)
+{
+	char test[] = "hello";
+	char reverse[] = "reverse";
+
+	my_str(test);
+	my_char('\n');
+	my_str(NULL);
+	my_char('\n');
+	my_str("");
+	my_char('\n');
+	my_str(" ");
+	my_char('\n');
+
+	my_int(-12);
+	my_char('\n');
+	my_int(1);
+	my_char('\n');
+	my_int(0);
+	my_char('\n');
+	my_int(100);
+	my_char('\n');
+	my_int(1010);
+	my_char('\n');
+	my_int(-1);
+	my_char('\n');
+
+	my_alpha();
+	my_char('\n');
+
+	my_digits();
+	my_char('\n');
+
+	my_int(my_strlen(test));
+	my_char('\n');
+	my_int(my_strlen(""));
+	my_char('\n');
+	my_int(my_strlen(" "));
+	my_char('\n');
+	my_int(my_strlen(NULL));
+	my_char('\n');
+
+	my_num_base(9, "RTFM");
+	my_char('\n');
+	my_num_base(275, "J");
+	my_char('\n');
+	my_num_base(0, "");
+	my_char('\n');
+	my_num_base(100, " ");
+	my_char('\n');
+	my_num_base(15, "H E");
+	my_char('\n');
+
+	my_int(my_revstr(reverse));
+	my_char('\n');
+	my_int(my_revstr(NULL));
+	my_char('\n');
+	my_int(my_revstr(""));
+	my_char('\n');
+	my_int(my_revstr(" "));
+
+	my_str(my_strindex(test, 'l'));
+	my_char('\n');
+	my_str(my_strindex(NULL, 'l'));
+	my_char('\n');
+	my_str(my_strindex(test, '\0'));
+	my_char('\n');
+	my_str(my_strindex(test, ' '));
+	my_char('\n');
+
+	my_str(my_strrindex(test, 'l'));
+	my_char('\n');
+	my_str(my_strrindex(NULL, 'l'));
+	my_char('\n');
+	my_str(my_strrindex(test, '\0'));
+	my_char('\n');
+	my_str(my_strrindex(test, ' '));
+	my_char('\n');
+
+	return 0;
+}

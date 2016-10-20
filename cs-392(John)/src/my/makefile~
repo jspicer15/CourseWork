@@ -1,0 +1,21 @@
+NAME = libmy.a
+
+SRC =  testmy.c my_alpha.c my_char.c my_digits.c my_int.c my_num_base.c my_revstr.c my_str.c my_strlen.c my_strindex.c
+
+OBJ = $(SRC:.c=.o)
+
+CFLAGS = -I../../include
+LDFLAGS = -c
+
+all:
+	ar -rc $(NAME) $(OBJ)
+	ranlib $(NAME)
+	mv $(NAME) ../../lib
+
+clean:
+	rm -f $(OBJ)
+
+fclean: clean
+	rm -f ../../lib/$(NAME)
+
+re: fclean all

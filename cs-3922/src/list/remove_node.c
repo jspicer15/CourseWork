@@ -1,0 +1,20 @@
+#include "../../include/list.h"
+
+void* remove_node(struct s_node** node)
+{
+	void* element;
+	if (node == NULL)
+		return NULL;
+
+	else
+	{
+		element = node->elem;
+
+		if (node->next != NULL)
+			node->next->prev = NULL;
+
+		free(node);
+		return element;
+	}
+}
+

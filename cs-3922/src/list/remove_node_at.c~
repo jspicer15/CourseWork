@@ -1,0 +1,38 @@
+#include "../../include/list.h"
+
+void* remove_node_at(struct s_node** head, int n)
+{
+	struct s_node* curr = *head;
+	void* element;
+
+	if (head = NULL)
+		return NULL;
+
+	else
+	{
+		if (n < 0)
+			n = 0;
+
+		while ((curr->next != NULL) && (n > 1))
+		{
+			curr = curr->next;
+			n--;
+		}
+
+		if (curr->previous != NULL)
+		{
+			curr->prev->next = NULL;
+			element = curr->elem;
+			free(curr);
+		}
+
+		else
+		{
+			element = curr->elem;
+			free(curr);
+		}
+
+		return element;
+	}
+}
+

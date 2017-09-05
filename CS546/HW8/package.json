@@ -1,0 +1,16 @@
+{
+  "name": "lab8",
+  "version": "1.0.0",
+  "description": "Lab 8 CS546",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "John Spicer",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "mongo": "^0.1.0"
+  }
+}

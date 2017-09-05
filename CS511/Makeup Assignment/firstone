@@ -1,0 +1,59 @@
+global Semaphore vehicle = new Semaphore(4);
+global Semaphore machine = new Semaphore(8);
+global int numberMach = 8;
+global int numberVeh = 4;
+global boolean load = false;
+global int pass = 1;
+global boolean unload = false;
+
+thread PlatformLoad: {
+	while (true) {
+		load = true;
+		pass = 1;
+		while((unload == false) || (pass == 1)){
+		machine.acquire();
+		print("Acquired machine " + numberMach-- + " for loading");
+		vehicle.acquire();
+		print("Acquired vehicle " + numberVeh-- + " for loading");
+		if ((numberMach == 0) || (numberVeh == 0)) {
+			break;
+}
+}
+		while((unload == false) || (pass == 1)){
+		print("Releasing machine " + ++numberMach + " for loading");
+		machine.release();
+		print("Releasing vehicle " + ++numberVeh + " for loading");
+		vehicle.release();
+		load = false;
+		if ((numberMach == 8) || (numberVeh == 4)) {
+			break;
+}
+}
+		}
+	}
+
+thread PlatformUnload: {
+	while (true) {
+		unload = true;
+		pass = 2;
+		while((load == false) || (pass == 1)) {
+		machine.acquire();
+		print("Acquired machine " + numberMach-- + " for unloading");
+		vehicle.acquire();
+		print("Acquired vehicle " + numberVeh-- + " for unloading");
+		if ((numberMach == 0) || (numberVeh == 0)) {
+			break;
+}
+}
+		while((load == false) || (pass == 1)) {
+		print("Releasing machine " + ++numberMach + " for unloading");
+		machine.release();
+		print("Releasing vehicle " + ++numberVeh + " for unloading");
+		vehicle.release();
+		unload = false;
+		if ((numberMach == 8) || (numberVeh == 4)) {
+			break;
+}
+}
+		}
+	}

@@ -1,0 +1,33 @@
+global int capacity = 50;
+global int people = 0;
+global Random rand = new Random();
+global boolean room = false;
+
+thread Speaker: {
+	while (true) {
+			room = true;
+			if (people == 0) {
+				room = false;
+			}
+			else {
+				print("The speaker is now speaking to " + people);
+				sleep(3000);
+				print("The speaker has finished speaking");	
+				room = false;
+				sleep(1000);
+				people -= rand.nextInt(people) + 1;
+			}
+	}
+}
+
+thread People: {
+	while (true) {
+		while (room == false) {
+			if (people < capacity) {
+				people += rand.nextInt(capacity - people) + 1;
+				print("There are " + people + " people in the auditorium");
+			}
+			
+		}
+	}
+}

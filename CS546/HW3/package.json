@@ -1,0 +1,11 @@
+{
+  "name": "hw3",
+  "version": "1.0.0",
+  "description": "CS546 Lab 3",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "John Spicer",
+  "license": "ISC"
+}

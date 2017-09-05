@@ -1,0 +1,16 @@
+const express = require('express');
+const router = express.Router();
+const story = {
+  "storyTitle": "Trapped",
+  "story": "I woke up finding myself with four of my friends. Well, three of them were friends, the other was unfamiliar. We were in a strange room with two doors and no windows. The person I did not know, a girl named Alissa, tried both doors, but they were locked. That is when I noticed the five names painted on the ceiling. They were our names: 'John' (me), 'Ray', 'Alissa', 'Samantha', and 'Julia.' Under the names was written 'You will not leave this room.' I began to freak out a bit as the Sam and Julia would not stop screaming. Then, Ray, always a calming and respected force took control. He pointed out that there were a series of puzzles around the room, that he hypothesized would lead to a key for the door out of the room. We began to calm down, seeing as we were not permanently trapped, but then things took a turn for the worse. A screen appeared from the ceiling and displayed '60:00' and began to count down. That is when the water began to appear from the drains around the room. I spoke, 'if we don't get out of here in an hour, we will surely drown.' Ray calmed our group, saying, 'don't worry, if we work together, we will get out of this. And don't call me, 'Shirley.'' Then the unthinkable happened. Alissa said, 'you aren't leaving, Ray,' and stabbed him in the back. We all stood there paralyzed as Ray's lifeless corpse began to float on the shallow waters. Alissa began to walk towards us and I did not know what to do. Julia then took out her revolver and pointed it at Alissa. 'You killed my love, Alissa, now prepare to die.' What happened next......silenced us all. (cliffhanger)"
+};
+
+router.get("/", (req, res) => {
+  try {
+        res.json(story);
+      } catch(err) {
+        res.status(500).send('Server Error:' + err);
+      }
+});
+
+module.exports = router;

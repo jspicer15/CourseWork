@@ -1,0 +1,63 @@
+global Semaphore vehicle = new Semaphore(4);
+global Semaphore machine = new Semaphore(8);
+global int numberMach = 8;
+global int numberVeh = 4;
+global boolean load = false;
+global int pass = 1;
+global boolean unload = false;
+global Random rand = new Random();
+global int temp = 0;
+
+thread PlatformLoad: {
+	while (true) {
+		while (numberMach > 0) {
+			machine.acquire();
+			print("Loading machine " + numberMach--);
+			sleep(rand.nextInt(1000) + 200);
+			if (numberVeh > 0) {
+				vehicle.acquire();
+				print("Loading vehicle " + numberVeh--);
+				sleep(rand.nextInt(1000) + 200);
+			}
+			else {
+				temp = rand.nextInt(4) + 1;
+				vehicle.release(temp);
+				numberVeh += temp;
+				print("Releasing " + numberVeh + " vehicles");
+				sleep(rand.nextInt(1000) + 200);
+			}
+		}
+			temp = rand.nextInt(8) + 1;
+			machine.release(temp);
+			numberMach += temp;
+			print("Releasing " + numberMach + " machines");
+			sleep(rand.nextInt(1000) + 200);
+	}
+}
+
+thread PlatformUnload: {
+	while (true) {
+		while (numberMach > 0) {
+			machine.acquire();
+			print("Unloading machine " + numberMach--);
+			sleep(rand.nextInt(1000) + 200);
+			if (numberVeh > 0) {
+				vehicle.acquire();
+				print("Unloading vehicle " + numberVeh--);
+				sleep(rand.nextInt(1000) + 200);
+			}
+			else {
+				temp = rand.nextInt(4) + 1;
+				vehicle.release(temp);
+				numberVeh += temp;
+				print("Releasing " + numberVeh + " vehicles");
+				sleep(rand.nextInt(1000) + 200);
+			}
+		}
+		temp = rand.nextInt(8) + 1;
+		machine.release(temp);
+		numberMach += temp;
+		print("Releasing " + numberMach + " machines");
+		sleep(rand.nextInt(1000) + 200);
+	}
+}

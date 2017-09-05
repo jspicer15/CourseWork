@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/public/styles.css">
+    <title>Palindrone Checker</title>
+</head>
+
+<body>
+    <div class="content">
+        <header>
+            <h1>Palindrome Checker</h1> </header>
+        <form action="http://localhost:3000/" method="POST">
+            <fieldset>
+                <legend>Check New Term</legend>
+                <label for="textInput">Phrase: </label>
+                <input type="text" name="textInput" id="textInput">
+                <br>
+                <br>
+                <input type="submit" id="submit"> </fieldset>
+        </form>
+        <ul>
+            <p class="ulTitle">List of Checked Terms: </p>{{#each terms}}
+            <li>
+                <p class="{{isPalindrome}}">{{term}}</p>
+            </li> {{/each}} </ul>
+    </div>
+    <footer>
+        <p>John Spicer. SID: 10397687.</p>
+    </footer>
+</body>
+
+</html>

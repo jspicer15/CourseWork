@@ -1,0 +1,19 @@
+Bradford Smith (bsmith8)
+CS 492 Lab 1 explanation.txt
+02/18/2016
+"I pledge my honor that I have abided by the Stevens Honor System."
+===================================================================
+
+Task 1: I avoided a deadlock situation by adding two more mutexes. The first I
+called the `grab_mutex` which is locked to allow a philosopher to pick up (get
+locks on) the forks to his left and right, the second I called the `drop_mutex`
+and is locked to allow a philosopher to drop (unlock) both forks atomically.
+This way the lock and unlock of the two mutexes becomes essentially atomic, so
+if a philosopher is going to make any action on forks it will always be two of
+them at a time.
+
+Task 2: I allowed only 3 philosophers to attempt to eat at the same time by
+adding a condition variable. When the philosopher attempts to pickup forks they
+first check to make sure that there are not currently 3 philosophers attempting
+to eat. If there are this philosopher does a `pthread_cond_wait` until one of
+the others is done eating.

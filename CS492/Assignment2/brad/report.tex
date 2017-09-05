@@ -1,0 +1,95 @@
+% Bradford Smith (bsmith8)
+% CS 492 Assignment 2 report.tex
+% 04/03/2016
+% "I pledge my honor that I have abided by the Stevens Honor System."
+% ====================================================================
+
+% global document styles =======================================================
+\documentclass[11pt, letterpaper]{article}
+\usepackage[letterpaper, margin=0.5in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tgbonum}
+\usepackage{textcomp}
+\usepackage{xcolor} %for colored code formatting
+\usepackage{fancyvrb} %for inserting text files
+\usepackage{graphicx} %for inserting images
+\graphicspath{./}
+\usepackage{multicol}
+\pagestyle{empty}
+\setlength{\tabcolsep}{0em}
+
+
+% custom macros ================================================================
+% simple inline code formatting (using typewriter font)
+%\newcommand{\code}[1]{\texttt{#1}}
+
+% colored inline code formatting
+\definecolor{codebg}{RGB}{225,225,225}
+\definecolor{codefg}{RGB}{200,40,90}
+\newcommand{\code}[1]{\colorbox{codebg}{\textcolor{codefg}{\texttt{#1}}}}
+
+
+% document begins here =========================================================
+\begin{document}
+\noindent{Bradford Smith (bsmith8)}\\
+\noindent{CS 492 Assignment 2 report.pdf}\\
+\noindent{\today}\\
+\noindent{\textit{``I pledge my honor that I have abided by the Stevens Honor System.''}}\\
+
+\begin{center}
+    \Large{Plots}
+
+    \makebox[\textwidth]{\includegraphics[width=\textwidth]{graph}}
+
+    \Large{Raw Data}
+
+    \footnotesize{Page Size | FIFO | LRU | Clock}
+\end{center}
+
+\begin{multicols}{2}
+    \VerbatimInput{demand.dat}
+    \VerbatimInput{prepaging.dat}
+\end{multicols}
+
+\bigskip
+
+\begin{center}
+    \Large{Analysis}
+\end{center}
+
+I expected FIFO to perform the worst, Clock to follow and LRU to be the best in both situations.
+For demand paging I expected results to start with a high number of page faults at lower page sizes and decrease as page size increased.
+For pre-paging I expected results to start lower than the starting results of demand paging and decrease from there.
+What actually happened at first seemed to match my expectations.
+Demand paging results started high then decreased with the strange effect being that FIFO and Clock increased from page size 8 to 16.
+Pre-paging results started much lower than the start of demand paging and started to decrease; however, for FIFO and Clock the decreasing ended in a sharp increase which ended up being almost worse than the worst demand paging results.
+Pre-paging with LRU produced different results with an almost steady (although slight) decline as page size increased until it increased from page size 8 to 16.
+
+\smallskip
+The first mismatch between my expectations and my results (demand FIFO and Clock going up from 8 to 16 page size) is likely the result of B\'{e}l\'{a}dy's Anomaly.
+B\'{e}l\'{a}dy's Anomaly is commonly experienced when using the FIFO algorithm, and since clock is a variant of FIFO it makes sense that both exhibit the pattern.
+The second mismatch in expectation (pre-paging FIFO and Clock having dramatic increase) is likely attributed to B\'{e}l\'{a}dy's Anomaly as well, exacerbated by the fact that pre-paging pulls two pages for each fault.
+The increase in faults for pre-paging LRU from 8 to 16 page size is the most interesting difference between my expectations and my results.
+Even in my results one can see how LRU showed a constant decrease in faults when using demand paging, so it would seem like a valid estimation that a similar trend might be seen when using pre-paging.
+Since LRU will not exhibit B\'{e}l\'{a}dy's Anomaly my guess is that this increase is the result of fragmentation occurring in memory.
+More memory means that pages are kept in memory longer and have an increased chance of being dropped as ``Least Recently Used'' right before it gets used again.
+
+\smallskip
+All three algorithms were fairly simple to implement.
+LRU is probably the simplest, when accessed a page is updated with a timestamp (cycle count in the case of my program).
+Then when doing a page swap a simple linear search is used to find the page with the lowest timestamp, that page is removed and a new one is loaded.
+FIFO is probably second in regard to the other two, each page table maintains a FIFO that keeps track of when pages were loaded.
+When a swap is done the FIFO pops off the page that was loaded first and a new one is pushed onto the end.
+Clock is the most complex, because it involved implementing FIFO and keeping track of access times.
+Implementing the clock algorithm involved making the same FIFO structure, and also keeping a ``bit'' that gets set to 1 each time the page is accessed.
+When a swap is done the FIFO is popped, but if the referenced ``bit'' is one the page is re-added to the FIFO with a reference ``bit'' of 0, if the bit was 0 then it is popped and a new page is pushed.
+
+\smallskip
+A random memory access trace would definitely change the results shown here.
+The results for demand paging would likely be very similar in terms of trend; however, page faults would probably increase across all swapping methods.
+The results for pre-paging, on the other hand, would likely become much worse, since pre-paging swaps in the next contiguous page with each page fault.
+This is likely to result in memory becoming cluttered with pages that may not be accessed right away if at all.
+
+\end{document}
+

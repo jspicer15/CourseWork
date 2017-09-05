@@ -1,0 +1,12 @@
+{
+  "name": "shapes",
+  "version": "1.0.0",
+  "description": "CS546 Lab2 Print Shapes",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Spicer",
+  "license": "ISC"
+}

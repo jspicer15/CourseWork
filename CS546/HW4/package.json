@@ -1,0 +1,16 @@
+{
+  "name": "hw4",
+  "version": "1.0.0",
+  "description": "Modules to create tasks and save them to a mongo database",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "John Spicer",
+  "license": "ISC",
+  "dependencies": {
+    "mongo": "^0.1.0",
+    "mongodb": "^2.2.24",
+    "uuid": "^3.0.1"
+  }
+}

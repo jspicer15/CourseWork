@@ -1,0 +1,54 @@
+global Semaphore magazines = new Semaphore(10);
+global Semaphore beds = new Semaphore(4);
+global int patients = 0;
+global int numBeds = 4;
+global boolean bedAvail = false;
+global Random rand = new Random();
+global int randBeds = 0;
+
+thread waitingRoom: {
+	while (true) {
+		while (bedAvail == false) {
+			if (patients >= 10) {
+				print("Patient " + patients++ + " is watching TV");
+				sleep(500);
+				if (patients > 15) {
+					while (patients > 0) {
+						print("Not taking any more patients until waiting room is empty. Patients left: " + patients--);
+						sleep(300);
+					}
+				}
+			}
+			else {
+				magazines.acquire();
+				print("Patient " + ++patients + " is reading a magazine");
+				sleep(500);
+			}
+		}
+	}
+}
+
+thread extraction: {
+	while (true) {
+		while (patients > 0) {
+			if (numBeds > 0) {
+				bedAvail == true;
+				beds.acquire();
+				print("Bed " + numBeds + " is taken");
+				sleep(500);
+				numBeds--;
+				magazines.release();
+				patients--;
+				bedAvail = false;
+			}
+			else {
+				bedAvail = false;
+				randBeds = rand.nextInt(4) + 1;
+				beds.release(randBeds);
+				numBeds += randBeds;
+				print("Bed " + numBeds + " is free");
+				sleep(500);
+			}
+		}
+	}
+}
